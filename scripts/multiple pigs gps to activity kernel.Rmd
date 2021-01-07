@@ -1,0 +1,139 @@
+---
+title: "Averaging over all pigs to create a single kernel density to compare against camera data"
+author: "David"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning = FALSE)
+```
+
+```{r load packages}
+#Load necessary packages
+library(lubridate)
+library(tidyverse)
+library(overlap)
+library(circular)
+library(CircStats)
+library(adehabitatLT)
+library(here)
+```
+
+
+I'll be working with the Spring GPS and camera data. 
+```{r import data}
+# Import camera data from spring
+spring_cams <-read_csv(here("data/BIR_Spring_Cams.csv")) 
+
+#Import gps data from spring
+spring_gps <- read.csv(here("data/BIRSpringGPS.csv")) 
+```
+
+Pre-processing steps
+```{r}
+dates <- as.POSIXct(strptime(as.character(spring_gps$Fix_DateTime),"%Y/%m/%d %H:%M", tz="America/New_York"))
+traj_spring <- as.ltraj(xy = spring_gps[,c("X","Y")], date = dates,
+                             id = spring_gps$Indiv_ID, typeII= TRUE, burst = spring_gps$Indiv_ID)
+
+ld_spring <- ld(traj_spring) #ld is a function from the adehabitatlt package that converts from ltraj object back to dataframe
+
+spring_df<-ld_spring %>% 
+  mutate(dtmin=dt/60,       #creates a new column for amount of time between points in minutes
+         dthr=dt/3600,      #creates a new column for time between points in hours
+         meterph=round(dist/dthr, digits=0))%>% #calculates movement rate in meters per hour, rounds to nearest
+  dplyr::select(id, x, y, date, dist,dt, dtmin, dthr, meterph) #selects columns of interest
+```
+Data processed for all 53 pigs.  
+
+Function to generate pseudo-observations
+```{r}
+gen_rand_times.mod <- function(N, st, et) {
+  dt <- as.numeric(difftime(et, st, unit="sec")) #calculates the interval in seconds between the start time and end time of the interval
+  ev <- sort(runif(N, 0, dt)) #generates N random values within that interval and sorts them from least to greatest
+  rt <- st + ev } # adds the generate times in seconds to the start value to create a vector of times between the start and the end
+```
+
+Now generate pseudo-observations for each pig, calculate coefficient of overlap again the spring camera data using Dhat4 option, and store the kernel density info.
+```{r eval=F}
+ids<-unique(spring_df$id)
+overlap_df<-data.frame(ids=ids, overlap=NA)
+kernel_df<-data.frame()
+for(i in seq_along(ids)){
+  tmp_res<-list()
+  tmp<-spring_df %>% filter(id==ids[[i]])
+  for(j in 1:nrow(tmp)){
+  if(tmp$dtmin[j]>19 & tmp$dtmin[j]<41 & is.na(tmp$dtmin[j])==FALSE){
+    tmp_res[[j]]<-gen_rand_times.mod(N=tmp$meterph[j], st=tmp$date[j], et = tmp$date[j+1])
+  }
+}
+
+tmp_df <-plyr::ldply(tmp_res, data.frame) #takes all the results from the list and binds them into a single dataframe
+
+tmp_df<-tmp_df %>% 
+  rename(datetime=`X..i..`) %>%  #renames default name with "datetime"
+  mutate(Indiv_ID=rep("data", times=nrow(tmp_df)), #creates a new column for the animal ID repeated for the length of the dataframe
+         time=format(ymd_hms(datetime), "%H:%M:%S")) #extracts just the time of each observation from the datetime
+
+tmp_df<-tmp_df %>% 
+  mutate(fractime=hms(time)/hms("24:00:00"), #calculates the fraction of the diel cycle based on the time
+         timeRad=fractime*2*pi)#multiplies to get radians to make data circular
+
+# produce overlap coefficient and store in dataframe
+tmp_overlap<-overlapEst(spring_cams$timeRad, tmp_df$timeRad, type = "Dhat4") 
+overlap_df[ids==ids[[i]], 2]<-tmp_overlap
+
+# produce activity kernel and store in dataframe
+tmp_kernel<-densityPlot(tmp_df$timeRad, extend=NULL)
+tmp_kernel<-tmp_kernel %>% 
+  rename(time_rad=x, kern_density=y) %>% 
+  mutate(id=ids[[i]])
+
+kernel_df<-bind_rows(kernel_df, tmp_kernel)
+cat(paste(i, "out of 53 \n "))
+} 
+```
+
+```{r}
+#save this output to file
+# write_csv(overlap_df, "output/spring_overlap_coefficients.csv")
+# write_csv(kernel_df, "output/spring_gps_activity_kernels.csv")
+
+# bring back kernel_df from chunk above that wasn't run to save time
+kernel_df<-read_csv(here("output/spring_gps_activity_kernels.csv"))
+```
+
+
+Now average over all individuals to get a single activity kernel
+```{r}
+kern_avg<-kernel_df %>% 
+  group_by(time_rad) %>% 
+  summarise(avg_dens=mean(kern_density))
+
+plot(kern_avg$time_rad, kern_avg$avg_dens)
+```
+  
+  These values don't add up to 1 so need to be normalized but the plot shouldn't change, just the y-axis. If relative activity is the goal I'm not sure it even matters.  
+
+
+If it'd be interesting to check out the confidence intervals for this averaged activity kernel, I can make this by giving each pig equal weight.
+```{r}
+kern_stats<-kernel_df %>% 
+  group_by(time_rad) %>% 
+  summarise(mean_activity=mean(kern_density),
+            sd_k=sd(kern_density),
+            n_k=n()) %>%
+  mutate(se_k=sd_k/sqrt(n_k),
+         lower_ci=mean_activity-qt(1-(0.05/2), n_k-1)*se_k,
+         upper_ci=mean_activity+qt(1-(0.05/2), n_k-1)*se_k) 
+  
+kern_stats %>% 
+  ggplot(aes(time_rad, mean_activity))+
+  geom_line()+
+  geom_ribbon(aes(ymin=lower_ci, ymax=upper_ci), alpha=0.2)+
+  ggtitle("Average kernel density for all pigs gps data in the spring")
+```
+
+
+
+
+
