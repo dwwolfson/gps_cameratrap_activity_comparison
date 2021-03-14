@@ -112,7 +112,7 @@ kern_avg<-kernel_df %>%
 plot(kern_avg$time_rad, kern_avg$avg_dens)
 ```
   
-  These values don't add up to 1 so need to be normalized but the plot shouldn't change, just the y-axis. If relative activity is the goal I'm not sure it even matters.  
+These values don't add up to 1 so need to be normalized but the plot shouldn't change, just the y-axis. If relative activity is the goal I'm not sure it even matters.  
 
 
 If it'd be interesting to check out the confidence intervals for this averaged activity kernel, I can make this by giving each pig equal weight.
@@ -132,6 +132,117 @@ kern_stats %>%
   geom_ribbon(aes(ymin=lower_ci, ymax=upper_ci), alpha=0.2)+
   ggtitle("Average kernel density for all pigs gps data in the spring")
 ```
+
+Lets try to add the camera data as well
+```{r}
+cam_kern<-densityPlot(spring_cams$timeRad, extend=NULL)
+cam_kern<-cam_kern %>% 
+   rename(time_rad=x, kern_density=y) %>% 
+  mutate(source="camera")
+
+kern_avg<-kern_avg %>% mutate(source="gps")
+kern_avg<-kern_avg %>% rename(kern_density=avg_dens)
+
+ggdf<-rbind(cam_kern, kern_avg)
+
+
+ggdf %>% 
+  ggplot(aes(time_rad, kern_density, color=source))+
+  geom_line(size=1)+
+  labs(x='hour of day')+
+  ggtitle('FL Spring Camera Activity vs Spring GPS Activity')
+
+```
+
+Now lets mess with coefficient of overlap values.  
+
+I'm curious in comparing the different ways we can produce this metric.  
+
+First lets calculate it using the group-averaged (but not bootstrapped) gps kernel vs the camera kernel.  
+
+To do this I have to first normalize the kernel density vectors to sum to 1 and then I can calculate the area of coverage under the overlap of the two activity curves, or another way to think about it is that the coefficient of overlap is the sum of the parallel minima of each density function.
+```{r}
+# normalize camera data
+cam_kern$norm<-cam_kern$kern_density/sum(cam_kern$kern_density)
+
+# normalize gps data
+kern_avg$norm<-kern_avg$kern_density/sum(kern_avg$kern_density)
+
+# now take the area under the curve
+sum(pmin(cam_kern$norm, kern_avg$norm))
+
+```
+So here's the point estimate, but not sure the best way to get CI.  
+
+When I created activity curves for each pig, I also calculated coefficients of overlap. Lets compare those estimates to this:
+
+```{r}
+# write_csv(overlap_df, "output/spring_overlap_coefficients.csv")
+overlap_df<-read_csv(here("output/spring_overlap_coefficients.csv"))
+
+mean(overlap_df$overlap)
+
+
+```
+
+This is only using one estimate from each pig. Now to see the coverage of the uncertainity by making a CI.
+
+
+```{r}
+
+lower<-mean(overlap_df$overlap)-qt(1-(0.05/2), nrow(overlap_df))*(sd(overlap_df$overlap)/sqrt(nrow(overlap_df)))
+upper<-mean(overlap_df$overlap)+qt(1-(0.05/2), nrow(overlap_df))*(sd(overlap_df$overlap)/sqrt(nrow(overlap_df)))
+
+print(c(lower, upper))
+
+```
+
+So if I understand this correctly, these two ways don't match, which isn't necessarily a problem.
+
+***
+  
+
+Now lets try the second approach where I bootstrap individual pigs many times and calculate coefficient with cam data each time. I'll resample 500 random pigs.
+
+```{r}
+
+ids<-unique(spring_df$id)
+bootstrap_overlaps<-vector()
+iter<-500
+
+for(i in 1:iter){
+  tmp_res<-list()
+  tmp_id<-sample(ids, 1)
+  tmp<-spring_df %>% filter(id==tmp_id)
+  for(j in 1:nrow(tmp)){
+    if(tmp$dtmin[j]>19 & tmp$dtmin[j]<41 & is.na(tmp$dtmin[j])==FALSE){
+      tmp_res[[j]]<-gen_rand_times.mod(N=tmp$meterph[j], st=tmp$date[j], et = tmp$date[j+1])
+    }
+  }
+  
+  tmp_df <-plyr::ldply(tmp_res, data.frame) #takes all the results from the list and binds them into a single dataframe
+  
+  tmp_df<-tmp_df %>% 
+    rename(datetime=`X..i..`) %>%  #renames default name with "datetime"
+    mutate(Indiv_ID=rep("data", times=nrow(tmp_df)), #creates a new column for the animal ID repeated for the length of the dataframe
+           time=format(ymd_hms(datetime), "%H:%M:%S")) #extracts just the time of each observation from the datetime
+  
+  tmp_df<-tmp_df %>% 
+    mutate(fractime=hms(time)/hms("24:00:00"), #calculates the fraction of the diel cycle based on the time
+           timeRad=fractime*2*pi)#multiplies to get radians to make data circular
+  
+  # produce overlap coefficient and store in vector
+  tmp_overlap<-overlapEst(spring_cams$timeRad, tmp_df$timeRad, type = "Dhat4") 
+  bootstrap_overlaps[[i]]<-tmp_overlap
+  
+  
+  cat(paste(i, "out of 500 \n "))
+} 
+
+
+```
+
+
 
 
 
