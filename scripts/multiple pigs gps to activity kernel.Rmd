@@ -1,5 +1,5 @@
 ---
-title: "Averaging over all pigs to create a single kernel density to compare against camera data"
+title: "Exploring how best to get robust coefficients of overlap with uncertainty"
 author: "David"
 output: html_document
 ---
@@ -204,7 +204,7 @@ So if I understand this correctly, these two ways don't match, which isn't neces
 
 Now lets try the second approach where I bootstrap individual pigs many times and calculate coefficient with cam data each time. I'll resample 500 random pigs.
 
-```{r}
+```{r eval=FALSE}
 
 ids<-unique(spring_df$id)
 bootstrap_overlaps<-vector()
@@ -239,9 +239,18 @@ for(i in 1:iter){
   cat(paste(i, "out of 500 \n "))
 } 
 
+write_csv(as.data.frame(bootstrap_overlaps), here("output/bootstrap_overlap_example.csv"))
 
 ```
 
+Running 500 iterations took about 3-4 hours (on my mediocre laptop).  
+
+Unfortunately, the sampling distribution of estimates is not bell-shaped, so this might not be enough.
+```{r}
+b_over<-read_csv(here("output/bootstrap_overlap_example.csv"))
+hist(b_over$bootstrap_overlaps)
+
+```
 
 
 
