@@ -111,7 +111,7 @@ for(i in 1:iter) {
 
 ### Step 7
 # Extract the 95% bootstrap confidence intervals
-quantile(bs, probs=c(0.025, 0.975)) 
+stats::quantile(bs, probs=c(0.025, 0.975)) 
 
 #      2.5%     97.5% 
 #    0.8876061 0.9249048 
