@@ -142,25 +142,3 @@ for(i in 1:iter) {
 quantile(bs, probs=c(0.025, 0.975)) 
 #      2.5%     97.5% 
 #    0.8885831 0.9252420 
-
-
-# Now bootstrap
-# 
-# bootstrap_overlap<-vector()
-# iter=1000
-# 
-# for(i in 1:iter){
-#   ptm<-proc.time()
-#   tmp_id<-sample(1:length(pig_dat), 1)
-#   tmp<-pig_dat[[tmp_id]]
-#   
-#   # produce overlap coefficient and store in vector
-#   tmp_overlap<-overlapEst(spring_cams$timeRad, tmp, type = "Dhat4") 
-#   bootstrap_overlap[[i]]<-tmp_overlap
-#   
-#   time_minutes<-(proc.time()-ptm)/60
-#   time_minutes<-round(time_minutes[["elapsed"]], 1)
-#   cat(paste("Last estimate took", time_minutes, "minutes, working on ", i, "out of ", iter," \n "))
-# } 
-# 
-# write_csv(as.data.frame(bootstrap_overlaps), here("output/bootstrap_overlap_example.csv"))
