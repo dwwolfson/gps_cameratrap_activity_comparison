@@ -9,7 +9,8 @@ library(overlap)
 gps2kernel<-function(gps_list){
   ptm<-proc.time()
   
-  out<-list
+  out<-list(NA, NA)
+  names(out)<-c("gps_matrix", "gps_kernel")
 
 num_pigs<-length(gps_list)
   
@@ -54,7 +55,7 @@ return(out)
 
 # If we are comparing camera datasets, use this function to get a kernel vector to compare
 cam2kernel<-function(path_to_cam){
-  df<-read_csv(path_to_cam)
+  df<-read_csv(path_to_cam, col_types = cols())
   
   # Convert camera data to a vector summing to 1 in the same way as steps 1-3
   cam_dens<-densityPlot(df$timeRad, xscale=1, n.grid = 256, extend=NULL)
