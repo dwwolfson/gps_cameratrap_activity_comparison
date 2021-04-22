@@ -1,4 +1,5 @@
-# Function for pre-processing GPS datasets
+# Function for pre-processing GPS dataset with suntime adjustment
+
 
 library(lubridate)
 library(tidyverse)
@@ -7,6 +8,8 @@ library(circular)
 library(CircStats)
 library(adehabitatLT)
 library(here)
+library(sp)
+
 
 # Function to create pseudo-observations based on speed in gps
 gen_rand_times.mod <- function(N, st, et) {
@@ -31,15 +34,13 @@ gen_rand_times.mod <- function(N, st, et) {
 # ..   Year = col_double()
 
 
-pre_process<-function(path_to_gps_dataset, tz="America/New_York"){
+pre_process_suntime_conversion<-function(path_to_gps_dataset, tz="America/New_York", site="FL"){
   ptm<-proc.time()
   gps_dataset<-read.csv(path_to_gps_dataset)
   
-  #create trajectories
   dates <- as.POSIXct(strptime(as.character(gps_dataset$Fix_DateTime),"%Y/%m/%d %H:%M", tz=tz))
-  
   traj_df <- as.ltraj(xy = gps_dataset[,c("X","Y")], date = dates,
-                          id = gps_dataset$Indiv_ID, typeII= TRUE, burst = gps_dataset$Indiv_ID)
+                      id = gps_dataset$Indiv_ID, typeII= TRUE, burst = gps_dataset$Indiv_ID)
   
   df <- ld(traj_df) #ld is a function from the adehabitatlt package that converts from ltraj object back to dataframe
   
@@ -53,9 +54,13 @@ pre_process<-function(path_to_gps_dataset, tz="America/New_York"){
   
   ids<-unique(df$id)
   pig_dat<-list()
+  
   for(i in seq_along(ids)){
     tmp_res<-list()
     tmp<-df %>% filter(id==ids[[i]])
+    
+    # Add in something here to conserve the coordinates after psuedoobservations are created for sunTime function
+    
     
     # use time intervals between 20 and 40 minutes
     for(j in 1:nrow(tmp)){
@@ -75,7 +80,13 @@ pre_process<-function(path_to_gps_dataset, tz="America/New_York"){
       mutate(fractime=hms(time)/hms("24:00:00"), #calculates the fraction of the diel cycle based on the time
              timeRad=fractime*2*pi)#multiplies to get radians to make data circular
     
-    pig_dat[[i]]<-tmp_df$timeRad
+    if(site=="FL"){
+    site<-sp::SpatialPoints(cbind(-81.195665, 27.168992), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))    
+    } else {site_locs<-sp::SpatialPoints(cbind(-118.7832222, 34.898505), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))      
+    }
+    tmp_df$suntime<-overlap::sunTime(clockTime = tmp_df$timeRad, Dates = tmp_df$datetime, site_locs)
+    
+    pig_dat[[i]]<-tmp_df$suntime
     cat("Working on pig number", i, "out of", length(ids), "\n")
   }
   time_minutes<-(proc.time()-ptm)/60
@@ -83,3 +94,7 @@ pre_process<-function(path_to_gps_dataset, tz="America/New_York"){
   cat("This pre-processing function took", time_minutes, "minutes")
   return(pig_dat)
 }
+    
+    
+    
+    

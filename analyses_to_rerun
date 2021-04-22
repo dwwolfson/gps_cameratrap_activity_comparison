@@ -1,17 +1,16 @@
 Comparisons to redo
 
 Florida:
-    1. GPS/GPS, within each sex and season compare years (Spring 2015 data for females vs. Spring 2016 data for females), Appendix 1.
-    2. pooling years, compare males and females within each season (because the previous analyses showed no yearly differences within sexes)
-    3. GPS/GPS, pooling sexes and years, compare seasons (Table 1) (because the previous analyses showed males and females did not differ within seasons)
-    4. pooling sexes and years, compare camera and telemetry data within each season (Figure 2) *redo figure and overlap stats*
+    DONE 1. GPS/GPS, within each sex and season compare years (Spring 2015 data for females vs. Spring 2016 data for females), Appendix 1
+    (need figs) DONE 2. pooling years, compare males and females within each season (because the previous analyses showed no yearly differences within sexes) (Appendix3)
+    DONE 3. GPS/GPS, pooling sexes and years, compare seasons (Table 1) (because the previous analyses showed males and females did not differ within seasons)
+    (need figs) 4. pooling sexes and years, compare camera and telemetry data within each season (Figure 2) *redo figure and overlap stats* STATS DONE
+    Done 5. Seasonal comparisons with suntimes
 
 Tejon
     1. GPS/GPS, pooling sexes and years, compare seasons (Table 1)
-    2. pooling sexes and years, compare camera and telemetry data within each season (Figure 3) *redo figure*
+    2  Same as above, but with suntime instead of clocktime
+    3. pooling sexes and years, compare camera and telemetry data within each season (Figure 3) *also redo figure*
     
     
-What about:
-Tejon, CAM/CAM, pooled sexes and seasons, compare years 2015/2016  Appendix 2
 
-FL, GPS/GPS, pooled years, compare telemetry data for each sex within each season (4 comparisons) ALSO OVERLAP FIGURE Appendix 3
