@@ -176,17 +176,17 @@ summer_gps_female<-pre_process(here("data/sex_comparisons/BIR_SummerGPS_Females.
 summer_gps_male<-pre_process(here("data/sex_comparisons/BIR_SummerGPS_Males.csv"))
 
 # Create activity kernels
-sp_female_kern<-gps2kernel(summer_gps_female)
-sp_male_kern<-gps2kernel(summer_gps_male)
+sum_female_kern<-gps2kernel(summer_gps_female)
+sum_male_kern<-gps2kernel(summer_gps_male)
 
 # Calculate overlap
-FL_summer_gps_sex<-est_overlap(kernel1=sp_female_kern[["gps_kernel"]],
-                               kernel2=sp_male_kern[["gps_kernel"]],
+FL_summer_gps_sex<-est_overlap(kernel1=sum_female_kern[["gps_kernel"]],
+                               kernel2=sum_male_kern[["gps_kernel"]],
                                bootCI=T,
                                k1="gps",
                                k2="gps", 
-                               matrix1=sp_female_kern[["gps_matrix"]],
-                               matrix2=sp_male_kern[["gps_matrix"]])
+                               matrix1=sum_female_kern[["gps_matrix"]],
+                               matrix2=sum_male_kern[["gps_matrix"]])
 
 res<-c("FL", "summer_GPS_female", "summer_gps_male", 
        FL_summer_gps_sex[[1]], 
@@ -203,17 +203,17 @@ winter_gps_female<-pre_process(here("data/sex_comparisons/BIR_WinterGPS_Females.
 winter_gps_male<-pre_process(here("data/sex_comparisons/BIR_WinterGPS_Males.csv"))
 
 # Create activity kernels
-sp_female_kern<-gps2kernel(winter_gps_female)
-sp_male_kern<-gps2kernel(winter_gps_male)
+win_female_kern<-gps2kernel(winter_gps_female)
+win_male_kern<-gps2kernel(winter_gps_male)
 
 # Calculate overlap
-FL_winter_gps_sex<-est_overlap(kernel1=sp_female_kern[["gps_kernel"]],
-                               kernel2=sp_male_kern[["gps_kernel"]],
+FL_winter_gps_sex<-est_overlap(kernel1=win_female_kern[["gps_kernel"]],
+                               kernel2=win_male_kern[["gps_kernel"]],
                                bootCI=T,
                                k1="gps",
                                k2="gps", 
-                               matrix1=sp_female_kern[["gps_matrix"]],
-                               matrix2=sp_male_kern[["gps_matrix"]])
+                               matrix1=win_female_kern[["gps_matrix"]],
+                               matrix2=win_male_kern[["gps_matrix"]])
 
 res<-c("FL", "winter_GPS_female", "winter_gps_male", 
        FL_winter_gps_sex[[1]], 
