@@ -161,7 +161,7 @@ legend("top", c("Males (n=25)", "Females (n=23)", "Overlap=0.92", "(0.87-0.95)")
 dev.off()
 
 tiff(here("figures/BIR_Male_Female/BIR_MaleFemale_Summer_Overlap.tiff"), width = 6, height = 6, units = 'in', res = 300)
-overlapPlot(sum_female_kern$gps_kernel, sum_male_kern$gps_kernel, main="Summer Wild Pig Activity Curves Florida", linetype = c(2, 1), 
+my_overlapPlot(sum_female_kern$gps_kernel, sum_male_kern$gps_kernel, main="Summer Wild Pig Activity Curves Florida", linetype = c(2, 1), 
             linecol = c("black", "black"),linewidth = c(2, 2), ylab="Activity", olapcol = "lightgrey",adjust=1, cex.lab=1.5, cex.axis=1.5, family = "serif")
 legend("top", c("Males (n=20)","Females (n=23)", "Overlap=0.93", "(0.87-0.95)"), lty=c(1,2,0,0), col = c(1,1,0,0), bty="n")
 dev.off()

@@ -81,7 +81,7 @@ pre_process_suntime_conversion<-function(path_to_gps_dataset, tz="America/New_Yo
              timeRad=fractime*2*pi)#multiplies to get radians to make data circular
     
     if(site=="FL"){
-    site<-sp::SpatialPoints(cbind(-81.195665, 27.168992), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))    
+    site_locs<-sp::SpatialPoints(cbind(-81.195665, 27.168992), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))    
     } else {site_locs<-sp::SpatialPoints(cbind(-118.7832222, 34.898505), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))      
     }
     tmp_df$suntime<-overlap::sunTime(clockTime = tmp_df$timeRad, Dates = tmp_df$datetime, site_locs)

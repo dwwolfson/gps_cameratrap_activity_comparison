@@ -475,7 +475,7 @@ female_summer15_16<-est_overlap(kernel1=fem_sum15[["gps_kernel"]],
                                 matrix1=fem_sum15[["gps_matrix"]],
                                 matrix2=fem_sum16[["gps_matrix"]])
 
-res<-c("FL", "female_spring_2015_gps", "female_spring_2016_gps", 
+res<-c("FL", "female_summer_2015_gps", "female_summer_2016_gps", 
        female_summer15_16[[1]], 
        female_summer15_16[[2]][1],
        female_summer15_16[[2]][2])
@@ -493,7 +493,7 @@ female_summer15_17<-est_overlap(kernel1=fem_sum15[["gps_kernel"]],
                                 matrix1=fem_sum15[["gps_matrix"]],
                                 matrix2=fem_sum17[["gps_matrix"]])
 
-res<-c("FL", "female_spring_2015_gps", "female_spring_2017_gps", 
+res<-c("FL", "female_summer_2015_gps", "female_summer_2017_gps", 
        female_summer15_17[[1]], 
        female_summer15_17[[2]][1],
        female_summer15_17[[2]][2])

@@ -16,8 +16,8 @@ FL,fall_gps,winter_gps,0.937,0.879,0.952
 FL,female_spring_2015_gps,female_spring_2016_gps,0.881,0.791,0.925
 FL,female_spring_2016_gps,female_spring_2017_gps,0.939,0.852,0.96
 FL,female_spring_2015_gps,female_spring_2017_gps,0.826,0.715,0.9
-FL,female_spring_2015_gps,female_spring_2016_gps,0.923,0.87,0.931
-FL,female_spring_2015_gps,female_spring_2017_gps,0.824,0.741,0.873
+FL,female_summer_2015_gps,female_summer_2016_gps,0.923,0.87,0.931
+FL,female_summer_2015_gps,female_summer_2017_gps,0.824,0.741,0.873
 FL,female_summer_2016_gps,female_summer_2017_gps,0.887,0.802,0.929
 FL,female_fall_2016_gps,female_fall_2017_gps,0.891,0.785,0.942
 FL,male_spring_2015_gps,male_spring_2016_gps,0.916,0.825,0.943
@@ -40,11 +40,11 @@ CA,summer_gps,winter_gps,0.696,0.588,0.764
 CA,fall_gps,winter_gps,0.907,0.789,0.919
 CA,Spring_GPS,Spring_Cam,0.862,0.778,0.896
 CA,summer_GPS,summer_Cam,0.856,0.776,0.907
-CA,fall_GPS,fall_Cam,0.753,0.656,0.840
+CA,fall_GPS,fall_Cam,0.753,0.656,0.84
 CA,winter_GPS,winter_Cam,0.828,0.728,0.893
 CA,spring_gps_suntime,summer_gps_suntime,0.963,0.922,0.974
-CA,spring_gps_suntime,fall_gps_suntime,0.924,0.890,0.933
+CA,spring_gps_suntime,fall_gps_suntime,0.924,0.89,0.933
 CA,spring_gps_suntime,winter_gps_suntime,0.874,0.836,0.891
-CA,summer_gps_suntime,fall_gps_suntime,0.916,0.879,0.930
+CA,summer_gps_suntime,fall_gps_suntime,0.916,0.879,0.93
 CA,summer_gps_suntime,winter_gps_suntime,0.859,0.818,0.879
 CA,fall_gps_suntime,winter_gps_suntime,0.922,0.858,0.944
