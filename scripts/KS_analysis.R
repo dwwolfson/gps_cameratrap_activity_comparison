@@ -2,6 +2,7 @@
 #on all activity comparisons. It pulls on several helper files for functions used.
 
 library(here)
+library(readr)
 
 func_paths<-list.files(here("scripts/functions"), full.names = T)
 invisible(lapply(func_paths, source))
@@ -81,8 +82,8 @@ ks_output[1,]<-unlist(tmp)
 write_csv(ks_output, here("output/ks_table.csv"))
 
 # 2) FL	summer_GPS	summer_Cam
-tmp<-full_ks_workflow(path_to_dataset1 = here("data/BIR_Summer_GPS.csv"),
-                          path_to_dataset2 = here("data/BIR_Summer_Cams.csv"),
+tmp<-full_ks_workflow(path_to_dataset1 = here("data/BIRSummer_GPS.csv"),
+                          path_to_dataset2 = here("data/BIRSummer_Cams.csv"),
                           db1_name = "FL_Summer_GPS",
                           db2_name = "FL_Summer_Cam",
                           k1 = "gps",
@@ -91,8 +92,8 @@ res<-unlist(tmp)
 write_csv(as.data.frame(t(res)), here("output/ks_table.csv"), append=T)
 
 # 3) FL	fall_GPS	fall_Cam
-tmp<-full_ks_workflow(path_to_dataset1 = here("data/BIR_Fall_GPS.csv"),
-                          path_to_dataset2 = here("data/BIR_Fall_Cams.csv"),
+tmp<-full_ks_workflow(path_to_dataset1 = here("data/BIRFall_GPS.csv"),
+                          path_to_dataset2 = here("data/BIRFall_Cams.csv"),
                           db1_name = "FL_Fall_GPS",
                           db2_name = "FL_Fall_Cam",
                           k1 = "gps",
@@ -101,8 +102,8 @@ res<-unlist(tmp)
 write_csv(as.data.frame(t(res)), here("output/ks_table.csv"), append=T)
 
 # 4) FL	winter_GPS	winter_Cam
-tmp<-full_ks_workflow(path_to_dataset1 = here("data/BIR_Winter_GPS.csv"),
-                          path_to_dataset2 = here("data/BIR_Winter_Cams.csv"),
+tmp<-full_ks_workflow(path_to_dataset1 = here("data/BIRWinter_GPS.csv"),
+                          path_to_dataset2 = here("data/BIRWinter_Cams.csv"),
                           db1_name = "FL_Winter_GPS",
                           db2_name = "FL_Winter_Cam",
                           k1 = "gps",
