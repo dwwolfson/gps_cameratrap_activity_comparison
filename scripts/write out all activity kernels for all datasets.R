@@ -59,7 +59,7 @@ paths[30]<-here("data/sexes_by_year/BIR_FallGPS_Females2017.csv")
 tmp<-NA
 
 
-for(i in 9:length(paths)){
+for(i in 1:length(paths)){
   cat("Creating activity kernel for dataset", i, "out of", length(paths), "\n")
   tmp<-pre_process(paths[i])
   num_pigs<-length(tmp)
@@ -82,7 +82,7 @@ for(i in 9:length(paths)){
 
 
 # Now I'll create the suntime-corrected kernels
-sun_paths<-paths[c(1:8)]
+sun_paths<-paths[c(5:8)]
 tmp<-NA
 i<-NA
 j<-NA
@@ -93,7 +93,7 @@ for(i in 1:length(sun_paths)){
   if(grepl("tejon", sun_paths[i])){
   tmp<-pre_process_suntime_conversion(sun_paths[i], tz="America/Los_Angeles", site="CA")}
   else{
-    pre_process(sun_paths[i]) # Florida time zone is the default argument
+    tmp<-pre_process_suntime_conversion(sun_paths[i]) # Florida time zone is the default argument
   }
   num_pigs<-length(tmp)
   # create a matrix to store the activity info for each pig

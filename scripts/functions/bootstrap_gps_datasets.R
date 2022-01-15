@@ -25,12 +25,9 @@ boot_gps<-function(path_to_dataset, nrow=513, iter=1000){
 
   out$y<-as.vector(t(apply(boot_mat, 1, mean, na.rm=T)))
   out[,c("lcl","ucl")]<-t(apply(boot_mat, 1, quantile, probs=c(0.025, 0.975), na.rm=T))
-  
+  return(out)
 }
-# 
-# # Convert from radians to hours 
-# out$hr<-out$x*(24/(2*pi))
-# 
+
 # # Plot
 # ggplot()+
 #    geom_line(aes(out$hr, out$y))+
