@@ -58,6 +58,7 @@ for(i in seq_along(gps_paths)){
     tmp_nocturnal<-sum(tmp_hrs<5 | tmp_hrs>19)/length(tmp_hrs)
     tmp_diurnal<-sum(tmp_hrs > 7 & tmp_hrs < 17)/length(tmp_hrs)
     tmp_crepuscular<-sum(tmp_hrs >5 & tmp_hrs < 7 | tmp_hrs > 17 & tmp_hrs < 19)/length(tmp_hrs)
+
     
     # write out sample size and diel categories
     tmp_row<-as.data.frame(t(c("CA", "GPS", seasons[i], n, tmp_nocturnal,
@@ -162,18 +163,20 @@ for(i in seq_along(cam_paths)){
     }
 }
     
-# Now make a nice looking table out of the results
-table<-read_csv(here("output/diel_table.csv"))
-
-my_tab<-knitr::kable(
-  table,
-  format = "simple",
-  escape = FALSE,
-  booktabs = TRUE,
-  caption = "caption text here",
-  col.names = c("Study Site", "Method", "Season", "Sample Size",
-                "Proportion Nocturnal", "Proportion Diurnal", "Proportion Crepuscular"),
-  align = c("l", "c")
-)
-kableExtra::save_kable(my_tab, here("table1.pdf"))  
+# Try to make a decent table
+# table<-read_csv(here("output/diel_table.csv"))
+# 
+# my_tab<-knitr::kable(
+#   table,
+#   format = "simple",
+#   escape = FALSE,
+#   booktabs = TRUE,
+#   caption = "caption text here",
+#   col.names = c("Study Site", "Method", "Season", "Sample Size",
+#                 "Proportion Nocturnal", "Proportion Diurnal", "Proportion Crepuscular"),
+#   align = c("l", "c")
+# )
+# 
+# kableExtra::save_kable(my_tab, here("table1.pdf"))  
+# looks good in r but doesn't render well to pdf
 

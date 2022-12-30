@@ -38,7 +38,7 @@ colSums(pigMat)  # should all be 1.
 out[[1]]<-pigMat
 
 ### Step 3
-# Get an "average" activity curve with all pigs equally weighted with
+# Get an "average" activity curve with all pigs equally weighted 
 pigAve <- rowMeans(pigMat)
 #This is a length 255 vector which sums to 1.
 out[[2]]<-pigAve
@@ -53,7 +53,7 @@ return(out)
 
 
 
-# If we are comparing camera datasets, use this function to get a kernel vector to compare
+# If we are comparing camera datasets, use this function to get a vector to use from the activity kernel
 cam2kernel<-function(path_to_cam){
   df<-read_csv(path_to_cam, col_types = cols())
   
@@ -65,4 +65,18 @@ cam2kernel<-function(path_to_cam){
   #normalize to sum to 1
   camVec<-camVec/sum(camVec)
   return(camVec)
+}
+
+# If using the above function but importing a csv 
+# (that was already preprocessed to suntime) instead of a path to a csv.
+cam2kern<-function(df){
+  # Convert camera data to a vector summing to 1 in the same way as steps 1-3
+  cam_dens<-densityPlot(df$timeRad, xscale=1, n.grid = 256, extend=NULL)
+  camVec<-cam_dens$y
+  camVec<-camVec[1:255]
+  
+  #normalize to sum to 1
+  camVec<-camVec/sum(camVec)
+  return(camVec)
+  
 }

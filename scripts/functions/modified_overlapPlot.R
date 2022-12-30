@@ -1,3 +1,5 @@
+# this script was made to hack into the way that activity kernels from the overlap package are plotted to make it more flexible
+
 plotTimeAxis <- function(xscale, ...) {
   # Deal with ... argument:
   dots <- list(...)

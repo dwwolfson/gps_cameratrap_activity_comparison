@@ -1,4 +1,5 @@
-# Function to bootstrap GPS activity kernels for mean and CIs by dataset
+# Function to bootstrap GPS activity kernels in order to get confidence intervals for plotting
+# for use in the script 'scripts/multiplanel_plots.R' and 'scripts/create all figures.R' in conjunction with 'scripts/functions/ggplot_custom_function.R'
 
 library(here)
 library(readr)
@@ -27,11 +28,4 @@ boot_gps<-function(path_to_dataset, nrow=513, iter=1000){
   out[,c("lcl","ucl")]<-t(apply(boot_mat, 1, quantile, probs=c(0.025, 0.975), na.rm=T))
   return(out)
 }
-
-# # Plot
-# ggplot()+
-#    geom_line(aes(out$hr, out$y))+
-#   scale_x_continuous(limits = c(0,24), expand = c(0, 0))+
-#    geom_ribbon(aes(out$hr, ymin=out$lcl, ymax=out$ucl), alpha=0.5, fill="blue")+
-#   theme_bw()
 
