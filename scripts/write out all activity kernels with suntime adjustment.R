@@ -1,9 +1,16 @@
 # write out all activity kernels used in manuscript (with suntime)
 
-library(here)
-library(readr)
-library(activity)
-library(stringr)
+packages<-c('here', 'readr', 'activity','stringr')
+
+# install any packages not previously installed
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+}
+
+# load packages
+invisible(lapply(packages, library, character.only = TRUE))
+
 
 func_paths<-list.files(here("scripts/functions"), full.names = T)
 invisible(lapply(func_paths, source))

@@ -13,15 +13,15 @@ df<-read_csv(here("data/climate/monthly_trends.csv"))
 #                values_to = 'temp')
 # 
 # months<-unique(df$month_str)
-
+df$avg_max_temp_c<-(df$avg_max_temp-32)*(5/9)
 
 
 p1<-df %>% 
-  ggplot(aes(factor(month_str, levels=month.name), avg_max_temp, color=study_site, group=study_site))+
+  ggplot(aes(factor(month_str, levels=month.name), avg_max_temp_c, color=study_site, group=study_site))+
   geom_point()+
   geom_line(linewidth=1)+
   theme_bw()+
-  labs(color="Study Site", x="Month", y="Temperature (°F)\n", title="Average maximum monthly temperature")+
+  labs(color="Study Site", x="Month", y="Temperature (°C)\n", title="Average maximum monthly temperature")+
   scale_color_manual(labels=c("FL", "CA"), values=c("goldenrod1", "blue"))+
   theme(axis.text.x=element_text(angle=-30))+
   theme(
@@ -64,25 +64,21 @@ p1<-df %>%
   )
 
 
-# this is too busy
-# df %>% 
-#   ggplot(aes(x=month_str, y=temp,color=as.factor(tmp_type), linetype=study_site))+
-#   geom_point()+
-#   geom_line(aes(group=interaction(tmp_type, study_site)))+
-#   scale_x_discrete(labels=months)
-#####
+
 ggsave(
   filename = here("figures/climate_plots/max_temp.tiff"),
   plot = p1, compression = "lzw"
 )
 
+df$avg_total_precip_mm<-df$avg_total_precip*25.4
+
+
 p2<-df %>% 
-  ggplot(aes(factor(month_str, levels=month.name), avg_total_precip, color=study_site, group=study_site))+
+  ggplot(aes(factor(month_str, levels=month.name), avg_total_precip_mm, color=study_site, group=study_site))+
   geom_point()+
   geom_line(linewidth=1)+
-  labs(color="Study Site", x="Month", y="Precipitation (inches)\n", title="Average monthly precipitation")+
+  labs(color="Study Site", x="Month", y="Precipitation (mm)\n", title="Average monthly precipitation")+
   scale_color_manual(labels=c("FL", "CA"), values=c("goldenrod1", "blue"))+
-  scale_y_continuous(breaks=seq(0,10, by=2))+
   theme_bw()+
   theme(axis.text.x=element_text(angle=-30))+
   theme(
@@ -127,4 +123,5 @@ ggsave(
   filename = here("figures/climate_plots/precip.tiff"),
   plot = p2, compression = "lzw"
 )
+
 

@@ -1,5 +1,47 @@
 # Function to plot activity kernels with confidence intervals 
 
+# settings to use for other plots
+my_theme<-function(){
+  theme(
+    # Specify the default settings for the plot title
+    plot.title = element_text(
+      size = 22,
+      face = "bold",
+      family = "serif"),
+    # Specify the default settings for caption text
+    plot.caption = element_text(
+      size = 12,
+      family = "serif" ),
+    # Specify the default settings for subtitle text
+    plot.subtitle = element_text(
+      size = 20,
+      face="bold",
+      family = "serif"),
+    # Specify the default settings for axis titles
+    axis.title = element_text(
+      size = 22,
+      face = "bold",
+      family = "serif"),
+    # Specify the default settings for x axis text
+    axis.text.x = element_text(
+      size = 18,
+      family = "serif"),
+    # Specify the default settings for y axis text
+    axis.text.y = element_text(
+      size = 18,
+      family = "serif"),
+    # Specify the default settings for legend titles
+    legend.title = element_text(
+      size = 18,
+      face = "bold",
+      family = "serif"),
+    # Specify the default settings for legend text
+    legend.text = element_text(
+      size = 20,
+      family = "serif"))
+}
+
+
 my_ggplot<-function(db1, db2, lab1=NA, lab2=NA, legend_title="", plot_title=NA){
   # db1 and db2 are the output of the boot_gps function (a dataframe with specific column names)
   # convert radians to hours
@@ -21,42 +63,7 @@ my_ggplot<-function(db1, db2, lab1=NA, lab2=NA, legend_title="", plot_title=NA){
     
     ggtitle(plot_title)+
     theme(plot.title = element_text(hjust = 0.5))+
-    theme(
-      # Specify the default settings for the plot title
-      plot.title = element_text(
-        size = 18,
-        face = "bold",
-        family = "serif"),
-      # Specify the default settings for caption text
-      plot.caption = element_text(
-        size = 12,
-        family = "serif" ),
-      # Specify the default settings for subtitle text
-      plot.subtitle = element_text(
-        size = 16,
-        family = "serif"),
-      # Specify the default settings for axis titles
-      axis.title = element_text(
-        size = 16,
-        face = "bold",
-        family = "serif"),
-      # Specify the default settings for x axis text
-      axis.text.x = element_text(
-        size = 14,
-        family = "serif"),
-      # Specify the default settings for y axis text
-      axis.text.y = element_text(
-        size = 14,
-        family = "serif"),
-      # Specify the default settings for legend titles
-      legend.title = element_text(
-        size = 16,
-        face = "bold",
-        family = "serif"),
-      # Specify the default settings for legend text
-      legend.text = element_text(
-        size = 14,
-        family = "serif"))
+    my_theme()
   
 }
 
@@ -96,85 +103,10 @@ my_ggplot_suntime<-function(db1, db2, db1_method="gps", db2_method="gps", lab1=N
     
     ggtitle(plot_title)+
     theme(plot.title = element_text(hjust = 0.5))+
-    theme(
-      # Specify the default settings for the plot title
-      plot.title = element_text(
-        size = 18,
-        face = "bold",
-        family = "serif"),
-      # Specify the default settings for caption text
-      plot.caption = element_text(
-        size = 12,
-        family = "serif" ),
-      # Specify the default settings for subtitle text
-      plot.subtitle = element_text(
-        size = 16,
-        family = "serif"),
-      # Specify the default settings for axis titles
-      axis.title = element_text(
-        size = 16,
-        face = "bold",
-        family = "serif"),
-      # Specify the default settings for x axis text
-      axis.text.x = element_text(
-        size = 14,
-        family = "serif"),
-      # Specify the default settings for y axis text
-      axis.text.y = element_text(
-        size = 14,
-        family = "serif"),
-      # Specify the default settings for legend titles
-      legend.title = element_text(
-        size = 16,
-        face = "bold",
-        family = "serif"),
-      # Specify the default settings for legend text
-      legend.text = element_text(
-        size = 14,
-        family = "serif"))
+    my_theme()
   
 }
 
-# settings to use for other plots
-my_theme<-function(){
-  theme(
-    # Specify the default settings for the plot title
-    plot.title = element_text(
-      size = 18,
-      face = "bold",
-      family = "serif",
-      hjust = 0.5),
-    # Specify the default settings for caption text
-    plot.caption = element_text(
-      size = 12,
-      family = "serif" ),
-    # Specify the default settings for subtitle text
-    plot.subtitle = element_text(
-      size = 16,
-      family = "serif"),
-    # Specify the default settings for axis titles
-    axis.title = element_text(
-      size = 16,
-      face = "bold",
-      family = "serif"),
-    # Specify the default settings for x axis text
-    axis.text.x = element_text(
-      size = 14,
-      family = "serif"),
-    # Specify the default settings for y axis text
-    axis.text.y = element_text(
-      size = 14,
-      family = "serif"),
-    # Specify the default settings for legend titles
-    legend.title = element_text(
-      size = 16,
-      face = "bold",
-      family = "serif"),
-    # Specify the default settings for legend text
-    legend.text = element_text(
-      size = 14,
-      family = "serif"))
-}
 
 
 

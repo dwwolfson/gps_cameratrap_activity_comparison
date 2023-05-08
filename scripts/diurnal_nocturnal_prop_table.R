@@ -163,20 +163,4 @@ for(i in seq_along(cam_paths)){
     }
 }
     
-# Try to make a decent table
-# table<-read_csv(here("output/diel_table.csv"))
-# 
-# my_tab<-knitr::kable(
-#   table,
-#   format = "simple",
-#   escape = FALSE,
-#   booktabs = TRUE,
-#   caption = "caption text here",
-#   col.names = c("Study Site", "Method", "Season", "Sample Size",
-#                 "Proportion Nocturnal", "Proportion Diurnal", "Proportion Crepuscular"),
-#   align = c("l", "c")
-# )
-# 
-# kableExtra::save_kable(my_tab, here("table1.pdf"))  
-# looks good in r but doesn't render well to pdf
 

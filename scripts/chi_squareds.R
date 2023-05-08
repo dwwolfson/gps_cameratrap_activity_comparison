@@ -60,16 +60,20 @@ out_long$season<-c(rep("Fall", 3), rep("Spring", 3), rep("Summer", 3), rep("Wint
 
 season_labs<-c("Crepuscular", "Diurnal", "Nocturnal")
 
-out_long  %>%
+res_plot<-out_long  %>%
   ggplot(., aes(standardized_residual_type, as.numeric(residual), color=as.factor(season)))+
     geom_point()+
     geom_line(aes(group=dataset_name, linetype=study_site), linewidth=1)+
   theme_bw()+
   my_theme()+
   scale_x_discrete(labels=season_labs)+
-  labs(color="Season", linetype="Study Site", x="Diel Periods", y="Standardized Residuals")
+  labs(color="Season", linetype="Study Site", x="\nDiel Periods", y="Standardized Residuals")
 
-
+ggsave(
+  filename = here("figures/chi_squared/residuals.tiff"),
+  plot = res_plot, compression = "lzw",
+  width=16, height=10
+)
 
 
 

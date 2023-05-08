@@ -1,17 +1,9 @@
-# rerun all florida suntime-adjusted
-
-
-# Create all figures
-
 library(here)
 library(ggplot2)
 library(readr)
 
 func_paths<-list.files(here("scripts/functions"), full.names = T)
 invisible(lapply(func_paths, source))
-
-# figure out how to have nice legends to show whether gps or camera and 
-# to distinguish each of the two datasets
 
 # where I'm saving them
 out_dir<-here("figures/with_CIs")

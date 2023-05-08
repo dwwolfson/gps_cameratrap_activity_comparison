@@ -1,4 +1,4 @@
-# Redo of all overlap statistics with suntime-corrected datasets
+# Overlap statistics with suntime-corrected datasets
 
 library(here)
 
