@@ -34,6 +34,8 @@ gen_rand_times.mod <- function(N, st, et) {
 # ..   Year = col_double()
 
 
+# default study site/time zone is Florida/EST
+# if site doesn't equal "FL", then the location of Tejon study site in California is used with Pacific time
 pre_process_suntime_conversion<-function(path_to_gps_dataset, tz="America/New_York", site="FL"){
   ptm<-proc.time()
   gps_dataset<-read.csv(path_to_gps_dataset)

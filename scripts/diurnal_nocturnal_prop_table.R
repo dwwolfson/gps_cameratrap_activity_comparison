@@ -1,10 +1,4 @@
 # Create a table summarizing sample sizes and proportion diurnal/nocturnal/crepuscular
-
-# For this table I'll want to know the sample sizes (either in collared pigs or number of camera detections) 
-# for each season and study site combination
-
-# I'm going to save out the suntime-corrected output for both the gps and camera datasets so I won't need to rerun
-
 library(here)
 
 func_paths<-list.files(here("scripts/functions"), full.names = T)

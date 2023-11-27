@@ -1,5 +1,3 @@
-# This is an extra script done in March 2023 because I didn't have script for the cam-cam seasonal comparisons
-
 # Add cam to cam seasonal overlap estimation for FL and CA and also add into coef plot
 
 library(here)

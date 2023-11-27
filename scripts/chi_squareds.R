@@ -67,7 +67,31 @@ res_plot<-out_long  %>%
   theme_bw()+
   my_theme()+
   scale_x_discrete(labels=season_labs)+
-  labs(color="Season", linetype="Study Site", x="\nDiel Periods", y="Standardized Residuals")
+  labs(color="Season", linetype="Study Site", x="\nDiel Periods", y="Standardized Residuals\n")+
+  theme(
+  # Specify the default settings for axis titles
+  axis.title = element_text(
+    size = 24,
+    face = "bold",
+    family = "serif"),
+  # Specify the default settings for x axis text
+  axis.text.x = element_text(
+    size = 24,
+    face = "bold",
+    family = "serif"),
+  # Specify the default settings for y axis text
+  axis.text.y = element_text(
+    size = 22,
+    family = "serif"),
+  # Specify the default settings for legend titles
+  legend.title = element_text(
+    size = 24,
+    face = "bold",
+    family = "serif"),
+  # Specify the default settings for legend text
+  legend.text = element_text(
+    size = 24,
+    family = "serif"))
 
 ggsave(
   filename = here("figures/chi_squared/residuals.tiff"),

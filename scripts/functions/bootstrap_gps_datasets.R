@@ -1,12 +1,13 @@
 # Function to bootstrap GPS activity kernels in order to get confidence intervals for plotting
-# for use in the script 'scripts/multiplanel_plots.R' and 'scripts/create all figures.R' in conjunction with 'scripts/functions/ggplot_custom_function.R'
+# for use in the script 'scripts/render_multiplanel_plots.R' and 'scripts/create_all_pairwise_comparisons.R' 
+# in conjunction with 'scripts/functions/ggplot_custom_function.R'
 
 library(here)
 library(readr)
 
 
 # import time in radians
-time<-read_csv(here("data/time_radians.csv"))
+time<-read_csv(here("raw_data/time_radians.csv"))
 
 boot_gps<-function(path_to_dataset, nrow=513, iter=1000){
   # dataset should be a data frame with each column representing the activity kernel of a single animal

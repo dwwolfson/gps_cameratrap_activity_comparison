@@ -1,5 +1,7 @@
 
 # Create all 4-panel plots
+# Annotated confidence interval values from overlap script
+# Save out bootstrapped output as RDS object to save intermediaries
 
 packages<-c('here', 'readr', 'activity','ggplot2', 'patchwork')
 

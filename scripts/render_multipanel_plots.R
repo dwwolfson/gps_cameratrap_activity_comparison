@@ -1,5 +1,7 @@
 
 # Create all 4-panel plots
+# Annotated confidence interval values from overlap script
+# Save out bootstrapped output as RDS object to save intermediaries
 
 packages<-c('here', 'readr', 'activity','ggplot2', 'patchwork')
 
@@ -69,7 +71,10 @@ fl_methods_winter<-fl_methods_winter+
   ylim(c(0,0.5))
 
 
-fl_methods_comparison <- fl_methods_winter +fl_methods_fall + fl_methods_summer + fl_methods_spring 
+fl_methods_comparison <- fl_methods_spring +
+                         fl_methods_summer +
+                         fl_methods_fall +
+                         fl_methods_winter 
 
 # ggsave(
 #   filename = here("figures/multipanel_plots_w_suntime/consistent_axes/fl_methods.tiff"),
@@ -78,10 +83,12 @@ fl_methods_comparison <- fl_methods_winter +fl_methods_fall + fl_methods_summer 
 
 # I rendered all the plots, but then tweaked the my_theme function to make the text fonts bigger and reran
 
+# Also, after revisions, I swapped the order of the seasons to be chronological (for all plots)
 # larger font sizes
 ggsave(
   filename = here("figures/multipanel_plots_w_suntime/consistent_axes/bigger_fonts/fl_methods.tiff"),
-  plot = fl_methods_comparison, compression = "lzw"
+  plot = fl_methods_comparison, compression = "lzw",
+  width=16, height=10
 )
 
 
@@ -132,7 +139,10 @@ tejon_winter<-tejon_winter+
   my_theme()+
   ylim(c(0,0.55))
 
-tejon_methods_comparison <- tejon_winter + tejon_fall + tejon_summer + tejon_spring
+tejon_methods_comparison <- tejon_spring + 
+                            tejon_summer + 
+                            tejon_fall + 
+                            tejon_winter
 
 # 
 # ggsave(
@@ -143,7 +153,8 @@ tejon_methods_comparison <- tejon_winter + tejon_fall + tejon_summer + tejon_spr
 # bigger fonts
 ggsave(
   filename = here("figures/multipanel_plots_w_suntime/consistent_axes/bigger_fonts/tejon_methods.tiff"),
-  plot = tejon_methods_comparison, compression = "lzw"
+  plot = tejon_methods_comparison, compression = "lzw",
+  width=16, height=10
 )
 
 ##########################
@@ -190,7 +201,10 @@ fl_sex_spring<-fl_sex_spring+
   my_theme()+
   ylim(c(0,0.55))
 
-fl_sex_comparison <- fl_sex_winter + fl_sex_fall + fl_sex_summer + fl_sex_spring
+fl_sex_comparison <- fl_sex_spring +
+                     fl_sex_summer + 
+                     fl_sex_fall + 
+                     fl_sex_winter
 
 # ggsave(
 #   filename = here("figures/multipanel_plots_w_suntime/consistent_axes/fl_sex.tiff"),

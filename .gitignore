@@ -10,3 +10,8 @@ scratch/
 scripts/scripts_archive/
 output/output_archive/
 archived/
+scripts/register_google_API_key.R
+scripts/make_map_Tejon_GPS_points.R
+scripts/multipanel_plots.R
+scripts/functions/modified_overlapPlot.R
+scripts/functions/pre_processing.R

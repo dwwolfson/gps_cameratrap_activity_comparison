@@ -54,6 +54,7 @@ p1<-df %>%
   facet_wrap(~state)+
   coord_flip()+
   theme_bw()+
+  scale_colour_discrete(breaks=unique(df$comparison))+
   theme(
     # Specify the default settings for the plot title
     plot.title = element_text(
@@ -107,6 +108,7 @@ p1<-df %>%
 
 ggsave(
   filename = here("figures/coef_plot/coef_plot.tiff"),
-  plot = p1, compression = "lzw"
+  plot = p1, 
+  compression = "lzw"
 )
 
