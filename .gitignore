@@ -15,4 +15,4 @@ scripts/make_map_Tejon_GPS_points.R
 scripts/multipanel_plots.R
 scripts/functions/modified_overlapPlot.R
 scripts/functions/pre_processing.R
-scripts/post_review
+scripts/post_review/
